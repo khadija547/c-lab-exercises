@@ -1,15 +1,19 @@
 #include <stdio.h>
 
 int main() {
-    int num, rev = 0;
-    printf("Enter ticket number: ");
-    scanf("%d", &num);
+    int pin, sum = 0;
+    printf("Enter 4-digit PIN: ");
+    scanf("%d", &pin);
 
-    while (num > 0) {
-        rev = rev * 10 + num % 10;  // push last digit into rev
-        num = num / 10;             // remove last digit
+    while (pin > 0) {
+        sum = sum + pin % 10;   // take last digit, add to sum
+        pin = pin / 10;         // remove last digit
     }
 
-    printf("Reversed number = %d\n", rev);
+    printf("Sum = %d\n", sum);
+    if (sum > 10)
+        printf("Strong PIN\n");
+    else
+        printf("Weak PIN\n");
     return 0;
 }
