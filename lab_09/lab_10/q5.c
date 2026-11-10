@@ -1,28 +1,31 @@
 #include <stdio.h>
+#include <string.h>
 
-/* marks.txt example (one student per line):
-101 Ali 85
-102 Sara 92
+/* credentials.txt example (one line):
+admin pass123
 */
 int main() {
-    int roll, marks;
-    char name[50];
+    char user[50], pass[50];            /* typed by the operator */
+    char fileUser[50], filePass[50];    /* saved in the file */
 
-    FILE *fptr = fopen("marks.txt", "r");      /* "r" = read */
+    printf("Enter username: ");
+    scanf("%49s", user);
+    printf("Enter password: ");
+    scanf("%49s", pass);
 
+    FILE *fptr = fopen("credentials.txt", "r");
     if (fptr == NULL) {
-        printf("Error: File Not Found!\n");
+        printf("Error: Could not open credentials file!\n");
         return 1;
     }
 
-    printf("%-10s %-20s %-5s\n", "Roll No", "Name", "Marks");
-    printf("---------------------------------------\n");
+    fscanf(fptr, "%49s %49s", fileUser, filePass);
 
-    /* fscanf returns how many values it read. We expect 3 per line.
-       When the file ends it returns EOF, so the loop stops. */
-    while (fscanf(fptr, "%d %49s %d", &roll, name, &marks) == 3) {
-        printf("%-10d %-20s %-5d\n", roll, name, marks);
-    }
+    /* strcmp returns 0 when both strings are exactly equal */
+    if (strcmp(user, fileUser) == 0 && strcmp(pass, filePass) == 0)
+        printf("Access Granted!\n");
+    else
+        printf("Access Denied!\n");
 
     fclose(fptr);
     return 0;
