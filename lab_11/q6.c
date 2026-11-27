@@ -1,17 +1,24 @@
 #include <stdio.h>
+#include <string.h>
 
-#define TOLL_RATE 50                 // fixed rate, cannot change
+#define TOLL_RATE 50
 
 void processVehicle(char vehicleType[])
 {
-    static int totalVehicles = 0;    // remembered between calls
-    static int totalFee = 0;         // remembered between calls
+    static int totalVehicles = 0;
+    static int totalFee = 0;
 
-    totalVehicles++;                 // one more vehicle
-    totalFee = totalFee + TOLL_RATE; // add the fee
+    if (strcmp(vehicleType, "REPORT") == 0)      // special word = print report
+    {
+        printf("\n----- Toll Plaza Report -----\n");
+        printf("Total vehicles: %d\n", totalVehicles);
+        printf("Total toll collected: %d PKR\n", totalFee);
+        return;
+    }
 
-    printf("Vehicle: %s | Total vehicles: %d | Total fee: %d PKR\n",
-           vehicleType, totalVehicles, totalFee);
+    totalVehicles++;
+    totalFee = totalFee + TOLL_RATE;
+    printf("%s passed. Fee: %d PKR\n", vehicleType, TOLL_RATE);
 }
 
 int main()
@@ -21,9 +28,6 @@ int main()
     processVehicle("Truck");
     processVehicle("Bike");
 
-    printf("\n----- Toll Plaza Report -----\n");
-    printf("Toll rate per vehicle: %d PKR\n", TOLL_RATE);
-    printf("Final report shown by the last call above.\n");
-
+    processVehicle("REPORT");    // prints the final report
     return 0;
 }
